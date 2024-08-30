@@ -1,0 +1,16 @@
+// Order page Style start
+
+@import "./admin-styles/mixin";
+
+.container{
+    background-color: pink;
+    max-width: 1367px;
+    width: 100%;
+    margin: auto;
+    overflow: auto;
+    h1 > {
+      @include heading(1px,100);
+      margin: 1rem 0;
+      text-align: left;
+    }
+ }

@@ -1,0 +1,68 @@
+
+@import "./admin-styles/mixin";
+
+$color1:white;
+$color2:rgba(46,46,46);
+$color3: rgba(0,104,136);
+
+.product-searh-page{
+    // background-color: red;
+    padding: 2rem;
+    @include flex(row,flex-start,stretch,2rem);
+    min-height:  calc(100vh - 6.5vh );
+    > aside{
+        min-width: 20rem;
+        @include baseShadow();
+        padding: 2rem;
+        @include flex(column,flex-start,stretch,0.5rem);
+        
+        > h2 {
+        @include heading();
+        }
+
+        > div {
+            > input , select {
+                @include inputStyle(100%,1rem,white,1px solid transparent);
+                margin :0.5px;
+                
+            }
+        }
+    }
+
+    main {
+        width: 100%;
+        padding: 0 2rem;
+       > h1{
+        @include heading(); 
+        }
+        > input {
+            border: 1px solid inherit;
+            @include inputStyle(50%);
+            border-radius: 5px;
+            margin:1.2rem;
+             font-size:1rem;
+             display: block;
+        }
+
+        .product-list-page{
+            @include flex(row,flex-start,flex-start);
+            flex-wrap: wrap;
+            height: calc(100% - 10rem);
+            overflow-y: auto;
+        }
+
+        article{
+            @include flex();
+            > button {
+                @include flex();
+                @include btn(10%,0.5rem);
+                &:disabled {
+                    opacity: 0.5;
+                    color: $color2;
+                }
+              }
+        }
+
+
+    }
+}
