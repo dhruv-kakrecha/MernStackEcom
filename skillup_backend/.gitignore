@@ -1,0 +1,26 @@
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# OS-generated files
+.DS_Store
+
+# Coverage directory
+coverage/
+
+# IDE-specific settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

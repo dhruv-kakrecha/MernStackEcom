@@ -1,0 +1,1 @@
+export const server = 'http://localhost:4000/api/v1' || import.meta.env.BACKEND_SERVER;

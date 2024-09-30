@@ -1,9 +1,13 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Column } from "react-table";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
+import { useGetAdminProductsQuery } from "../../redux/api/productApi";
+import { useSelector } from "react-redux";
+import { UserReducerInitialState } from "../../types/reducer-types";
+import toast from "react-hot-toast";
 
 interface DataType {
   photo: ReactElement;
@@ -60,15 +64,43 @@ const arr: Array<DataType> = [
 ];
 
 const Products = () => {
-  const [rows, setRows] = useState<DataType[]>(arr);
+  const { user, loading } = useSelector((state: { userReducer: UserReducerInitialState }) => state?.userReducer);
+
+  // Using the RTK Query hook to fetch admin products
+  const { data, isLoading, isError, error } = useGetAdminProductsQuery(user?._id);
+  const [rows, setRows] = useState<DataType[]>([]);//arr
+
+
+
+  useEffect(() => {
+    if (data?.status && data?.product) {
+      const productRows = data.product.map((item: any) => ({
+        photo: <img src={`http://localhost:3000/uploads/${item?.photo}`} alt={item?.name} style={{ width: '50px' }} />,
+        name: item?.name,
+        price: item?.price,
+        stock: item?.stock,
+        action: <Link to={`/admin/product/${item?._id}`}>Manage</Link>,
+      }));
+      setRows(productRows);
+    } else if (data && !data.status) {
+      toast.error(data?.message || 'Failed to fetch products');
+    }
+  }, [data]);
+
 
   const Table = TableHOC<DataType>(
     columns,
     rows,
     "dashboard-product-box",
     "Products",
-    rows.length > 6
+    rows?.length > 6,
   )();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{error?.message || 'Error fetching admin products'}</p>;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="admin-container">
